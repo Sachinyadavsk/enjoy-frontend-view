@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingCart, User, Menu, X, Search, Bell } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -14,10 +15,10 @@ const Navbar = () => {
                     </div>
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-6">
-                        <a href="#" className="hover:text-blue-600">Home</a>
-                        <a href="#" className="hover:text-blue-600">Shop</a>
-                        <a href="#" className="hover:text-blue-600">Categories</a>
-                        <a href="#" className="hover:text-blue-600">Deals</a>
+                        <Link to="/" className="hover:text-blue-600">Home</Link>
+                        <Link to="/shop" className="hover:text-blue-600">Shop</Link>
+                        <Link to="/categories" className="hover:text-blue-600">Categories</Link>
+                        <Link to="/deals" className="hover:text-blue-600">Deals</Link>
                     </div>
                     {/* Search Bar */}
                     <div className="hidden md:flex items-center border rounded-lg px-2 py-1 w-1/3">
@@ -30,8 +31,7 @@ const Navbar = () => {
                         <Bell className="cursor-pointer hover:text-blue-600" />
                         <User className="cursor-pointer hover:text-blue-600" />
                         {/* Mobile Menu Button */}
-                        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}
-                        >
+                        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
                             {isOpen ? <X /> : <Menu />}
                         </button>
                     </div>
@@ -40,16 +40,15 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 {isOpen && (
                     <div className="md:hidden flex flex-col space-y-3 pb-4">
-                        <a href="#" className="hover:text-blue-600">Home</a>
-                        <a href="#" className="hover:text-blue-600">Shop</a>
-                        <a href="#" className="hover:text-blue-600">Categories</a>
-                        <a href="#" className="hover:text-blue-600">Deals</a>
+                        <Link to="/" className="hover:text-blue-600">Home</Link>
+                        <Link to="/shop" className="hover:text-blue-600">Shop</Link>
+                        <Link to="/categories" className="hover:text-blue-600">Categories</Link>
+                        <Link to="/deals" className="hover:text-blue-600">Deals</Link>
 
                         {/* Mobile Search */}
                         <div className="flex items-center border rounded-lg px-2 py-1">
                             <Search size={18} className="text-gray-500" />
-                            <input type="text" placeholder="Search..." className="outline-none px-2 w-full"
-                            />
+                            <input type="text" placeholder="Search..." className="outline-none px-2 w-full"/>
                         </div>
                     </div>
                 )}
