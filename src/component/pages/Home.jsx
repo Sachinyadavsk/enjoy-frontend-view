@@ -1,11 +1,11 @@
 import React from 'react'
 import { useEffect, useState } from "react";
-const slides = [
-  "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp",
-  "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp",
-  "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp",
-  "https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp",
-];
+// const slides = [
+//   "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp",
+//   "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp",
+//   "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp",
+//   "https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp",
+// ];
 
 const category = {
   All: [
@@ -27,12 +27,25 @@ const category = {
 
 const Home = () => {
   const [current, setCurrent] = useState(0);
+   const [bannerItems, setBannerItems] = useState([]);
 
+  
+
+  // Fetch menu from API
+      useEffect(() => {
+          fetch("https://enjoy-backend-api.onrender.com/api/sliders")
+              .then(res => res.json())
+              .then(slides => {
+                  setBannerItems(slides);
+              })
+              .catch(err => console.error("Menu API Error:", err));
+      }, []);
+  
 
   // Auto slide every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
+      setCurrent((prev) => (prev + 1) % bannerItems.length);
     }, 3000);
 
     return () => clearInterval(interval);
