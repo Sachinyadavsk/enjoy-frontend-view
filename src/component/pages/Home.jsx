@@ -9,6 +9,7 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("All");
+  const [loading, setLoading] = useState(true);
 
   // Fetch sliders using Axios
   useEffect(() => {
@@ -33,27 +34,39 @@ const Home = () => {
   }, [bannerItems]);
 
 
-  // Fetch categories
+  // 🌐 Fetch Categories
   useEffect(() => {
     fetch("https://enjoy-backend-api.onrender.com/api/categoriesmenu")
       .then(res => res.json())
-      .then(data => setCategories(data))
-      .catch(err => console.error(err));
+      .then(data => {
+        setCategories(Array.isArray(data) ? data : []);
+      })
+      .catch(err => console.error("Category Error:", err));
   }, []);
 
-  // Fetch posts
+  // 🌐 Fetch Posts
   useEffect(() => {
     fetch("https://enjoy-backend-api.onrender.com/api/posts")
       .then(res => res.json())
-      .then(data => setPosts(data))
-      .catch(err => console.error(err));
+      .then(data => {
+        setPosts(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Post Error:", err);
+        setLoading(false);
+      });
   }, []);
 
-  // Filter posts
+  // 🎯 Filter Logic
   const filteredPosts =
     activeTab === "All"
       ? posts
-      : posts.filter(post => post.category === activeTab);
+      : posts.filter(post =>
+        typeof post.category === "object"
+          ? post.category?.name === activeTab
+          : post.category === activeTab
+      );
 
   // const [activeTab, setActiveTab] = useState("All");
   // const items = category[activeTab];
@@ -118,37 +131,79 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="">
-          <h2 className="text-2xl font-bold text-gray-800 p-6">Category List</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 p-6">
+            Category List
+          </h2>
+
           <div className="w-full p-5">
 
-            {/* 🔥 Category Tabs */}
+            {/* 🔥 Tabs */}
             <div className="flex gap-3 mb-6 justify-end flex-wrap">
-              {categories.map(cat => (
-                <button
-                   key={cat._id} onClick={() => setActiveTab(cat.name)}
-                  className={`btn ${activeTab === cat.name ? "btn-primary" : "btn-outline"
-                    }`}
-                >
-                  {cat.name}
-                </button>
-              ))}
+
+              {/* All Tab */}
+              <button
+                onClick={() => setActiveTab("All")}
+                className={`btn ${activeTab === "All" ? "btn-primary" : "btn-outline"
+                  }`}
+              >
+                All
+              </button>
+
+              {/* Category Tabs */}
+              {Array.isArray(categories) &&
+                categories.map(cat => (
+                  <button
+                    key={cat._id}
+                    onClick={() => setActiveTab(cat.name)}
+                    className={`btn ${activeTab === cat.name ? "btn-primary" : "btn-outline"
+                      }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
             </div>
 
-            {/* 🔥 Grid Layout (6 columns) */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-             {filteredPosts.map(post => (
-                <div key={post._id} className="card bg-base-100 shadow-md">
-                  <figure>
-                    <img src={post.image_big} alt={post.title} className="h-32 w-full object-cover" />
-                  </figure>
-                  <div className="card-body p-3">
-                    <h2 className="text-sm font-semibold">{post.title}</h2>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* 🔄 Loading */}
+            {loading ? (
+              <div className="text-center py-10 text-gray-500">
+                Loading posts...
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
 
+                {filteredPosts.length === 0 ? (
+                  <p className="col-span-full text-center text-gray-500">
+                    No posts found
+                  </p>
+                ) : (
+                  filteredPosts.map(post => (
+                    <div
+                      key={post._id}
+                      className="card bg-base-100 shadow-md hover:shadow-lg transition"
+                    >
+                      <figure>
+                        <img
+                          src={
+                            post.image_big ||
+                            "https://via.placeholder.com/300"
+                          }
+                          alt={post.title}
+                          className="h-32 w-full object-cover"
+                        />
+                      </figure>
+
+                      <div className="card-body p-3">
+                        <h2 className="text-sm font-semibold line-clamp-2">
+                          {post.title}
+                        </h2>
+                      </div>
+                    </div>
+                  ))
+                )}
+
+              </div>
+            )}
           </div>
         </div>
         <div className="max-w-6xl mx-auto mt-10">
