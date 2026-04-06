@@ -49,7 +49,7 @@ const Home = () => {
             <div className="flex transition-transform duration-700"
               style={{ transform: `translateX(-${current * 100}%)` }}>
               {slides.map((src, index) => (
-                <img key={index} src={src} className="w-full flex-shrink-0" />
+                <img key={index} src={src} className="w-full flex-shrink-0 h-[400px]" />
               ))}
             </div>
 
