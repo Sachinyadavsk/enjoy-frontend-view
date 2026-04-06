@@ -61,10 +61,10 @@ const Home = () => {
           <div className="w-full overflow-hidden relative">
             <div className="flex transition-transform duration-700"
               style={{ transform: `translateX(-${current * 100}%)` }}>
-              {slides.map((src, index) => (
+              {bannerItems.map((item, index) => (
                 <img
                   key={index}
-                  src={src}
+                  src={item.photo}
                   className="w-full flex-shrink-0 h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] object-cover"
                 />
               ))}
@@ -73,19 +73,20 @@ const Home = () => {
             {/* Manual buttons */}
             <button
               onClick={() =>
-                setCurrent((current - 1 + slides.length) % slides.length)
+                setCurrent((current - 1 + bannerItems.length) % bannerItems.length)
               }
               className="btn btn-circle absolute left-5 top-1/2">
               ❮
             </button>
 
             <button
-              onClick={() => setCurrent((current + 1) % slides.length)}
+              onClick={() => setCurrent((current + 1) % bannerItems.length)}
               className="btn btn-circle absolute right-5 top-1/2">
               ❯
             </button>
           </div>
         </div>
+        
         <div className="max-w-6xl mx-auto ">
           <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
             <div class="flex">
