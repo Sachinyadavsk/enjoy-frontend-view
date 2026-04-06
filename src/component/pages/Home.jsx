@@ -23,7 +23,7 @@ const Home = () => {
       });
   }, []);
 
-  console.log("API Response:", bannerItems); // 👈 console data
+
   // Auto slide every 3 seconds
   useEffect(() => {
     if (bannerItems.length === 0) return; // 👈 prevent division by 0
@@ -34,7 +34,7 @@ const Home = () => {
   }, [bannerItems]);
 
 
-  // 🌐 Fetch Categories
+  // ✅ Fetch Categories
   useEffect(() => {
     fetch("https://enjoy-backend-api.onrender.com/api/categoriesmenu")
       .then(res => res.json())
@@ -44,7 +44,7 @@ const Home = () => {
       .catch(err => console.error("Category Error:", err));
   }, []);
 
-  // 🌐 Fetch Posts
+  // ✅ Fetch Posts
   useEffect(() => {
     fetch("https://enjoy-backend-api.onrender.com/api/posts")
       .then(res => res.json())
@@ -58,15 +58,11 @@ const Home = () => {
       });
   }, []);
 
-  // 🎯 Filter Logic
+  // ✅ Filter using category_id
   const filteredPosts =
     activeTab === "All"
       ? posts
-      : posts.filter(post =>
-        typeof post.category === "object"
-          ? post.category?.name === activeTab
-          : post.category === activeTab
-      );
+      : posts.filter(post => post.category_id === activeTab);
 
   // const [activeTab, setActiveTab] = useState("All");
   // const items = category[activeTab];
@@ -105,11 +101,11 @@ const Home = () => {
         </div>
 
         <div className="max-w-6xl mx-auto ">
-          <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
-            <div class="flex">
-              <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg></div>
+          <div className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+            <div className="flex">
+              <div className="py-1"><svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg></div>
               <div>
-                <p class="font-bold">Video Hot section in display with latest</p>
+                <p className="font-bold">Video Hot section in display with latest</p>
               </div>
             </div>
           </div>
@@ -141,7 +137,7 @@ const Home = () => {
             {/* 🔥 Tabs */}
             <div className="flex gap-3 mb-6 justify-end flex-wrap">
 
-              {/* All Tab */}
+              {/* ✅ ALL TAB */}
               <button
                 onClick={() => setActiveTab("All")}
                 className={`btn ${activeTab === "All" ? "btn-primary" : "btn-outline"
@@ -150,18 +146,17 @@ const Home = () => {
                 All
               </button>
 
-              {/* Category Tabs */}
-              {Array.isArray(categories) &&
-                categories.map(cat => (
-                  <button
-                    key={cat._id}
-                    onClick={() => setActiveTab(cat.name)}
-                    className={`btn ${activeTab === cat.name ? "btn-primary" : "btn-outline"
-                      }`}
-                  >
-                    {cat.name}
-                  </button>
-                ))}
+              {/* ✅ CATEGORY TABS (use _id) */}
+              {categories.map(cat => (
+                <button
+                  key={cat._id}
+                  onClick={() => setActiveTab(cat._id)}   // ⭐ IMPORTANT
+                  className={`btn ${activeTab === cat._id ? "btn-primary" : "btn-outline"
+                    }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
             </div>
 
             {/* 🔄 Loading */}
@@ -172,6 +167,7 @@ const Home = () => {
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
 
+                {/* ❌ No Data */}
                 {filteredPosts.length === 0 ? (
                   <p className="col-span-full text-center text-gray-500">
                     No posts found
