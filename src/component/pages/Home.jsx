@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from "react";
+import axios from "axios";
 // const slides = [
 //   "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp",
 //   "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp",
@@ -26,30 +27,30 @@ const category = {
 };
 
 const Home = () => {
+  const [bannerItems, setBannerItems] = useState([]);
   const [current, setCurrent] = useState(0);
-   const [bannerItems, setBannerItems] = useState([]);
 
-  
+  // Fetch sliders using Axios
+  useEffect(() => {
+    axios.get("https://enjoy-backend-api.onrender.com/api/sliders")
+      .then((response) => {
+        const sliders = response.data.data || response.data.sliders || response.data;
+      setBannerItems(Array.isArray(sliders) ? sliders : []);
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  }, []);
 
-  // Fetch menu from API
-      useEffect(() => {
-          fetch("https://enjoy-backend-api.onrender.com/api/sliders")
-              .then(res => res.json())
-              .then(slides => {
-                  setBannerItems(slides);
-              })
-              .catch(err => console.error("Menu API Error:", err));
-      }, []);
-  
-
+console.log("API Response:", bannerItems); // 👈 console data
   // Auto slide every 3 seconds
   useEffect(() => {
+    if (bannerItems.length === 0) return; // 👈 prevent division by 0
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % bannerItems.length);
     }, 3000);
-
     return () => clearInterval(interval);
-  }, []);
+  }, [bannerItems]);
 
   const [activeTab, setActiveTab] = useState("All");
   const items = category[activeTab];
@@ -86,7 +87,7 @@ const Home = () => {
             </button>
           </div>
         </div>
-        
+
         <div className="max-w-6xl mx-auto ">
           <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
             <div class="flex">
