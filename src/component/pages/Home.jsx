@@ -1,48 +1,28 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import axios from "axios";
-// const slides = [
-//   "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp",
-//   "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp",
-//   "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp",
-//   "https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp",
-// ];
 
-const category = {
-  All: [
-    { title: "Item 1", img: "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp" },
-    { title: "Item 2", img: "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp" },
-    { title: "Item 3", img: "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp" },
-    { title: "Item 4", img: "https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp" },
-    { title: "Item 5", img: "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp" },
-    { title: "Item 6", img: "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp" },
-  ],
-  Nature: [
-    { title: "Nature 1", img: "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp" },
-    { title: "Nature 2", img: "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp" },
-  ],
-  City: [
-    { title: "City 1", img: "https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp" },
-  ],
-};
 
 const Home = () => {
   const [bannerItems, setBannerItems] = useState([]);
   const [current, setCurrent] = useState(0);
+  const [categories, setCategories] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [activeTab, setActiveTab] = useState("All");
 
   // Fetch sliders using Axios
   useEffect(() => {
     axios.get("https://enjoy-backend-api.onrender.com/api/sliders")
       .then((response) => {
         const sliders = response.data.data || response.data.sliders || response.data;
-      setBannerItems(Array.isArray(sliders) ? sliders : []);
+        setBannerItems(Array.isArray(sliders) ? sliders : []);
       })
       .catch((error) => {
         console.error("API Error:", error);
       });
   }, []);
 
-console.log("API Response:", bannerItems); // 👈 console data
+  console.log("API Response:", bannerItems); // 👈 console data
   // Auto slide every 3 seconds
   useEffect(() => {
     if (bannerItems.length === 0) return; // 👈 prevent division by 0
@@ -52,8 +32,31 @@ console.log("API Response:", bannerItems); // 👈 console data
     return () => clearInterval(interval);
   }, [bannerItems]);
 
-  const [activeTab, setActiveTab] = useState("All");
-  const items = category[activeTab];
+
+  // Fetch categories
+  useEffect(() => {
+    fetch("https://enjoy-backend-api.onrender.com/api/categoriesmenu")
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  // Fetch posts
+  useEffect(() => {
+    fetch("https://enjoy-backend-api.onrender.com/api/posts")
+      .then(res => res.json())
+      .then(data => setPosts(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  // Filter posts
+  const filteredPosts =
+    activeTab === "All"
+      ? posts
+      : posts.filter(post => post.category === activeTab);
+
+  // const [activeTab, setActiveTab] = useState("All");
+  // const items = category[activeTab];
 
   return (
     <div className="bg-white min-h-screen">
@@ -121,27 +124,26 @@ console.log("API Response:", bannerItems); // 👈 console data
 
             {/* 🔥 Category Tabs */}
             <div className="flex gap-3 mb-6 justify-end flex-wrap">
-              {Object.keys(category).map((tab) => (
+              {categories.map(cat => (
                 <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`btn ${activeTab === tab ? "btn-primary" : "btn-outline"
+                   key={cat._id} onClick={() => setActiveTab(cat.name)}
+                  className={`btn ${activeTab === cat.name ? "btn-primary" : "btn-outline"
                     }`}
                 >
-                  {tab}
+                  {cat.name}
                 </button>
               ))}
             </div>
 
             {/* 🔥 Grid Layout (6 columns) */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {items.map((item, index) => (
-                <div key={index} className="card bg-base-100 shadow-md">
+             {filteredPosts.map(post => (
+                <div key={post._id} className="card bg-base-100 shadow-md">
                   <figure>
-                    <img src={item.img} alt={item.title} className="h-32 w-full object-cover" />
+                    <img src={post.image_big} alt={post.title} className="h-32 w-full object-cover" />
                   </figure>
                   <div className="card-body p-3">
-                    <h2 className="text-sm font-semibold">{item.title}</h2>
+                    <h2 className="text-sm font-semibold">{post.title}</h2>
                   </div>
                 </div>
               ))}
