@@ -45,15 +45,16 @@ const Home = () => {
   }, []);
 
   // ✅ Fetch Posts
+
   useEffect(() => {
-    fetch("https://enjoy-backend-api.onrender.com/api/posts")
-      .then(res => res.json())
-      .then(data => {
-        setPosts(Array.isArray(data) ? data : []);
+    axios.get("https://enjoy-backend-api.onrender.com/api/posts")
+      .then((response) => {
+        const posts = response.data.data || response.data.sliders || response.data;
+        setPosts(Array.isArray(posts) ? posts : []);
         setLoading(false);
       })
-      .catch(err => {
-        console.error("Post Error:", err);
+      .catch((error) => {
+        console.error("Post Error:", error);
         setLoading(false);
       });
   }, []);
@@ -179,14 +180,20 @@ const Home = () => {
                       className="card bg-base-100 shadow-md hover:shadow-lg transition"
                     >
                       <figure>
-                        <img
-                          src={
-                            post.image_big ||
-                            "https://via.placeholder.com/300"
-                          }
-                          alt={post.title}
-                          className="h-32 w-full object-cover"
-                        />
+                        {post.video_path ? (
+                          <video
+                            src={post.video_path}
+                            poster={post.image_big}
+                            controls
+                            className="h-32 w-full object-cover"
+                          />
+                        ) : (
+                          <img
+                            src={post.image_big || "https://via.placeholder.com/300"}
+                            alt={post.title}
+                            className="h-32 w-full object-cover"
+                          />
+                        )}
                       </figure>
 
                       <div className="card-body p-3">
