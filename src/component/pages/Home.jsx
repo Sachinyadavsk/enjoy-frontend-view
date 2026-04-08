@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import axios from "axios";
+import  {API_URL} from '../setliveurl.js'
 
 
 const Home = () => {
@@ -13,7 +14,7 @@ const Home = () => {
 
   // Fetch sliders using Axios
   useEffect(() => {
-    axios.get("https://enjoy-backend-api.onrender.com/api/sliders")
+    axios.get(`${API_URL}/sliders`)
       .then((response) => {
         const sliders = response.data.data || response.data.sliders || response.data;
         setBannerItems(Array.isArray(sliders) ? sliders : []);
@@ -36,7 +37,7 @@ const Home = () => {
 
   // ✅ Fetch Categories
   useEffect(() => {
-    fetch("https://enjoy-backend-api.onrender.com/api/categoriesmenu")
+    fetch(`${API_URL}/categoriesmenu`)
       .then(res => res.json())
       .then(data => {
         setCategories(Array.isArray(data) ? data : []);
@@ -47,7 +48,7 @@ const Home = () => {
   // ✅ Fetch Posts
 
   useEffect(() => {
-    axios.get("https://enjoy-backend-api.onrender.com/api/posts")
+    axios.get(`${API_URL}/posts`)
       .then((response) => {
         const posts = response.data.data || response.data.sliders || response.data;
         setPosts(Array.isArray(posts) ? posts : []);

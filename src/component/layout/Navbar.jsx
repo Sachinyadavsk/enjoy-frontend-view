@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ShoppingCart, User, Menu, X, Search, Bell } from "lucide-react";
 import { Link } from 'react-router-dom';
+import  {API_URL} from '../setliveurl.js'
 
 const Navbar = () => {
 
@@ -9,7 +10,7 @@ const Navbar = () => {
 
     // Fetch menu from API
     useEffect(() => {
-        fetch("https://enjoy-backend-api.onrender.com/api/categoriesmenu")
+        fetch(`${API_URL}/categoriesmenu`)
             .then(res => res.json())
             .then(data => {
                 setMenuItems(data);
