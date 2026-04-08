@@ -1,8 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import  {API_URL} from '../setliveurl.js'
-
+const API_URL = "https://enjoy-backend-api.onrender.com/api";
 
 const Home = () => {
   const [bannerItems, setBannerItems] = useState([]);

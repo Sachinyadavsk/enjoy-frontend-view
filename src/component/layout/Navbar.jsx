@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ShoppingCart, User, Menu, X, Search, Bell } from "lucide-react";
 import { Link } from 'react-router-dom';
-import  {API_URL} from '../setliveurl.js'
+const API_URL = "https://enjoy-backend-api.onrender.com/api";
 
 const Navbar = () => {
 
