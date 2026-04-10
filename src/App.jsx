@@ -1,10 +1,10 @@
 import React from 'react'
 import Navbar from './component/layout/Navbar';
 import { Routes, Route } from "react-router-dom";
-import Shop from './component/pages/shop';
+import Register from './component/pages/Register';
 import Home from './component/pages/Home';
-import Categories from './component/pages/Categories';
-import Deals from './component/pages/Deals';
+import Login from './component/pages/Login';
+import Notifications from './component/pages/Notifications';
 import ClientApp from "./client-dashboard/App";
 import AdminApp from "./admin-dashboard/App";
 import ProtectedRoute from "./shared/ProtectedRoute";
@@ -16,9 +16,9 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/deals" element={<Deals />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/notifications" element={<Notifications />} />
         {/* Client */}
         <Route
           path="/dashboard/*"
