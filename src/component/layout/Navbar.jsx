@@ -33,6 +33,12 @@ const Navbar = () => {
                                 {item.name}
                             </Link>
                         ))}
+                        <Link to="/notifications" className="hover:text-blue-600">
+                            Notifications
+                        </Link>
+                        <Link to="/login" className="hover:text-blue-600">
+                            Login
+                        </Link>
                     </div>
                     {/* Search Bar */}
                     <div className="hidden md:flex items-center border rounded-lg px-2 py-1 w-1/3">
@@ -42,12 +48,6 @@ const Navbar = () => {
 
                     {/* Icons */}
                     <div className="flex items-center space-x-4">
-                        <Link to="/notifications">
-                            <Bell className="cursor-pointer hover:text-blue-600" />
-                        </Link>
-                       <Link to="/register">
-                            <User className="cursor-pointer hover:text-blue-600" />
-                        </Link>
                         {/* Mobile Menu Button */}
                         <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
                             {isOpen ? <X /> : <Menu />}
@@ -63,6 +63,13 @@ const Navbar = () => {
                                 {item.name}
                             </Link>
                         ))}
+
+                        <Link to="/notifications">
+                            <Bell className="cursor-pointer hover:text-blue-600" />
+                        </Link>
+                        <Link to="/register">
+                            <User className="cursor-pointer hover:text-blue-600" />
+                        </Link>
 
                         {/* Mobile Search */}
                         <div className="flex items-center border rounded-lg px-2 py-1">

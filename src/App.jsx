@@ -1,19 +1,25 @@
 import React from 'react'
 import Navbar from './component/layout/Navbar';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Register from './component/pages/Register';
 import Home from './component/pages/Home';
-import Login from './component/pages/Login';
+import Login from './component/pages/Login.jsx';
 import Notifications from './component/pages/Notifications';
 import ClientApp from "./client-dashboard/App";
 import AdminApp from "./admin-dashboard/App";
-import ProtectedRoute from "./shared/ProtectedRoute";
-import AdminRoute from "./shared/AdminRoute";
+import ProtectedRoute from "./shared/ProtectedRoute.jsx";
+import AdminRoute from "./shared/AdminRoute.jsx";
 
 const App = () => {
+  const location = useLocation();
+
+  // Hide navbar on admin & dashboard
+  const hideNavbar =
+    location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/dashboard");
   return (
     <div>
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
