@@ -14,19 +14,13 @@ const Sidebar = ({ open }) => {
             }}
         >
             <h3 className="font-bold rounded-2xl border-gray-950 hover:text-cyan-600" style={{ padding: "10px" }}>
-                {open ? "Admin Panel" : "AP"}
+                {open ? "Users Panel" : "AP"}
             </h3>
 
             <nav className=""  style={{ display: "flex", flexDirection: "column" }}>
-                <Link to="/admin" style={link}>Dashboard</Link>
-                <Link to="/admin/users" style={link}>Users</Link>
-                <Link to="/admin/posts" style={link}>Posts</Link>
-                <Link to="/admin/category" style={link}>Category</Link>
-                <Link to="/admin/subcategory" style={link}>SubCategory</Link>
-                <Link to="/admin/ads" style={link}>Ads</Link>
-                <Link to="/admin/gallery" style={link}>Gallery</Link>
-                <Link to="/admin/pages" style={link}>Pages</Link>
-                <Link to="/admin/slider" style={link}>Slider</Link>
+                <Link to="/" style={link}>Dashboard</Link>
+                <Link to="/profile" style={link}>Profile</Link>
+                <Link to="/posts" style={link}>Posts</Link>
             </nav>
         </div>
     );

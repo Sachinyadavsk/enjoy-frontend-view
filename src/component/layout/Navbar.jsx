@@ -67,7 +67,7 @@ const Navbar = () => {
                         <Link to="/notifications">
                             <Bell className="cursor-pointer hover:text-blue-600" />
                         </Link>
-                        <Link to="/register">
+                        <Link to="/login">
                             <User className="cursor-pointer hover:text-blue-600" />
                         </Link>
 

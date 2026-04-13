@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../shared/api/axios.jsx";
 import { useAuth } from "../../shared/context/AuthContext.jsx";
+import { LogIn, LogInIcon, Menu } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -62,10 +63,11 @@ const Login = () => {
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <h2>Login</h2>
+        <h2 className=" flex items-center gap-2 text-2xl font-bold text-gray-600 mb-5"><LogIn /> Login</h2>
 
         {error && <p style={styles.error}>{error}</p>}
 
+        <label htmlFor="">Email</label>
         <input
           type="email"
           name="email"
@@ -74,7 +76,7 @@ const Login = () => {
           onChange={handleChange}
           style={styles.input}
         />
-
+        <label htmlFor="">Password</label>
         <input
           type="password"
           name="password"
@@ -87,6 +89,7 @@ const Login = () => {
         <button type="submit" style={styles.button} disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
+        <p>Don't have an account? <a href="/register" className="cursor-pointer text-blue-400">Register here</a></p>
       </form>
     </div>
   );
@@ -100,14 +103,14 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    height: "70vh",
     background: "#f4f4f4",
   },
   form: {
     background: "#fff",
     padding: "30px",
     borderRadius: "8px",
-    width: "300px",
+    width: "400px",
     boxShadow: "0 0 10px rgba(0,0,0,0.1)",
   },
   input: {
