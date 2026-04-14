@@ -3,7 +3,7 @@ import React from 'react'
 const AdsAdd = () => {
   return (
     <div>
-      <h1>Add Ad</h1>
+      <h1>Add Ads</h1>
     </div>
   )
 }

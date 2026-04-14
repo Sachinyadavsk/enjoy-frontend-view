@@ -9,21 +9,58 @@ const Sidebar = ({ open, setOpen }) => {
         { name: "Dashboard", path: "/admin" },
 
         {
+            name: "Category",
+            children: [
+                { name: "Category List", path: "/admin/category/list" },
+                { name: "Add Category", path: "/admin/category/add" },
+                { name: "Edit Category", path: "/admin/category/edit" },
+
+            ],
+        },
+
+        {
+            name: "SubCategory",
+            children: [
+                { name: "SubCategory List", path: "/admin/subcategory/list" },
+                { name: "Add SubCategory", path: "/admin/subcategory/add" },
+                { name: "Edit SubCategory", path: "/admin/subcategory/edit" },
+
+            ],
+        },
+
+        {
+            name: "Gallery",
+            children: [
+                { name: "Gallery List", path: "/admin/gallery" },
+                { name: "Add Gallery", path: "/admin/gallery/add" },
+                { name: "Edit Gallery", path: "/admin/gallery/edit" },
+            ],
+        },
+
+        {
+            name: "Slider",
+            children: [
+                { name: "Slider List", path: "/admin/slider" },
+                { name: "Add Slider", path: "/admin/slider/add" },
+                { name: "Edit Slider", path: "/admin/slider/edit" },
+            ],
+        },
+        
+        {
+            name: "Ads",
+            children: [
+                { name: "Ads List", path: "/admin/ads" },
+                { name: "Add Ad", path: "/admin/ads/add" },
+                { name: "Edit Ad", path: "/admin/ads/edit" },
+            ],
+        },
+
+        {
             name: "Posts",
             children: [
                 { name: "Post List", path: "/admin/posts" },
                 { name: "Add Post", path: "/admin/posts/add" },
                 { name: "Edit Post", path: "/admin/posts/edit" },
-            ],
-        },
-
-        {
-            name: "Category",
-            children: [
-                { name: "Category List", path: "/admin/category-list" },
-                { name: "Add Category", path: "/admin/category" },
-                { name: "Edit Category", path: "/admin/category/edit" },
-
             ],
         },
 
@@ -35,22 +72,7 @@ const Sidebar = ({ open, setOpen }) => {
                 { name: "Edit User", path: "/admin/users/edit" },
             ],
         },
-        {
-            name: "Ads",
-            children: [
-                { name: "Ads List", path: "/admin/ads" },
-                { name: "Add Ad", path: "/admin/ads/add" },
-                { name: "Edit Ad", path: "/admin/ads/edit" },
-            ],
-        },
-        {
-            name: "Gallery",
-            children: [
-                { name: "Gallery List", path: "/admin/gallery" },
-                { name: "Add Gallery", path: "/admin/gallery/add" },
-                { name: "Edit Gallery", path: "/admin/gallery/edit" },
-            ],
-        },
+
         {
             name: "Pages",
             children: [
@@ -58,15 +80,8 @@ const Sidebar = ({ open, setOpen }) => {
                 { name: "Add Page", path: "/admin/pages/add" },
                 { name: "Edit Page", path: "/admin/pages/edit" },
             ],
-        },
-        {
-            name: "Slider",
-            children: [
-                { name: "Slider List", path: "/admin/slider" },
-                { name: "Add Slider", path: "/admin/slider/add" },
-                { name: "Edit Slider", path: "/admin/slider/edit" },
-            ],
-        },
+        }
+
     ];
 
     return (

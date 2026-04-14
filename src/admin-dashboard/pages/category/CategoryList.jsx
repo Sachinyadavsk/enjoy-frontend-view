@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
+import API from "../../../shared/api/axios";
 
 const CategoryList = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        setData([
-            {
-                name: "News",
-                slug: "news",
-                color: "#ff0000",
-                category_order: 1,
-                show_at_homepage: true,
-                show_on_menu: true,
-            },
-        ]);
+        const fetchCategories = async () => {
+            try {
+                const res = await API.get("/categoriesmenu");
+                setData(res.data);
+            } catch (err) {
+                console.error("Error fetching categories:", err);
+            }
+        };
+
+        fetchCategories();
     }, []);
 
     return (
@@ -39,7 +40,6 @@ const CategoryList = () => {
                             <tr key={index} className="border-t">
                                 <td className="p-2">{item.name}</td>
                                 <td className="p-2">{item.slug}</td>
-
                                 <td className="p-2">
                                     <span
                                         className="px-2 py-1 text-white rounded"
@@ -48,17 +48,13 @@ const CategoryList = () => {
                                         {item.color}
                                     </span>
                                 </td>
-
                                 <td className="p-2">{item.category_order}</td>
-
                                 <td className="p-2">
                                     {item.show_at_homepage ? "Yes" : "No"}
                                 </td>
-
                                 <td className="p-2">
                                     {item.show_on_menu ? "Yes" : "No"}
                                 </td>
-
                                 <td className="p-2 space-x-2">
                                     <button className="bg-blue-500 text-white px-2 py-1 rounded">
                                         Edit
