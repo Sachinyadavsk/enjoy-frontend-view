@@ -213,27 +213,21 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-gray-800 p-6">Featured Videos</h2>
           <div className="border rounded-lg shadow hover:shadow-lg transition duration-300 p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="path/to/your/image.jpg" alt="Featured Video 1" />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-800">Featured Video 1</h3>
-                  <p className="text-gray-600">Description of the featured video.</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="path/to/your/image.jpg" alt="Featured Video 2" />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-800">Featured Video 2</h3>
-                  <p className="text-gray-600">Description of the featured video.</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="path/to/your/image.jpg" alt="Featured Video 3" />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-800">Featured Video 3</h3>
-                  <p className="text-gray-600">Description of the featured video.</p>
-                </div>
-              </div>
+              {filteredPosts.length === 0 ? (
+                <p className="col-span-full text-center text-gray-500">
+                  No posts found
+                </p>
+              ) : (
+                filteredPosts.slice(0, 3).map(post => (
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src={post.image_big || "https://via.placeholder.com/300"} alt="Featured Video 1" />
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-gray-800">{post.title}</h3>
+                      <p className="text-gray-600">{post.description}</p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

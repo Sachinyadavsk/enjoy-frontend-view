@@ -21,7 +21,7 @@ const CategoryList = () => {
         <div className="bg-white p-6 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-4">Category List</h2>
 
-            <div className="overflow-x-auto">
+            <div className="table table-responsive">
                 <table className="w-full border">
                     <thead className="bg-black text-white">
                         <tr>
@@ -29,7 +29,6 @@ const CategoryList = () => {
                             <th className="p-2 text-left">Slug</th>
                             <th className="p-2 text-left">Color</th>
                             <th className="p-2 text-left">Order</th>
-                            <th className="p-2 text-left">Homepage</th>
                             <th className="p-2 text-left">Menu</th>
                             <th className="p-2 text-left">Action</th>
                         </tr>
@@ -49,9 +48,7 @@ const CategoryList = () => {
                                     </span>
                                 </td>
                                 <td className="p-2">{item.category_order}</td>
-                                <td className="p-2">
-                                    {item.show_at_homepage ? "Yes" : "No"}
-                                </td>
+                                
                                 <td className="p-2">
                                     {item.show_on_menu ? "Yes" : "No"}
                                 </td>
