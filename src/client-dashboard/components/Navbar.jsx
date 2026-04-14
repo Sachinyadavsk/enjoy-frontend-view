@@ -98,7 +98,8 @@ const Navbar = () => {
                         ))}
 
                         <Link to="/notifications">Notifications</Link>
-
+                        <Link to="/dashboard/profile">Profile</Link>
+                        <Link to="/dashboard/posts">My Posts</Link>
                         {!user ? (
                             <Link to="/login">Login</Link>
                         ) : (

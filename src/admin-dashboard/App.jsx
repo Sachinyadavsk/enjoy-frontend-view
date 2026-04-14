@@ -4,13 +4,17 @@ import Layout from "./components/Layout";
 
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
-import Posts from "./pages/Posts";
-import Category from "./pages/Category";
+import Posts from "./pages/posts/Posts";
+import Category from "./pages/category/Category";
 import SubCategory from "./pages/SubCategory";
 import Ads from "./pages/Ads";
 import Gallery from "./pages/Gallery";
 import Pages from "./pages/Pages";
 import Slider from "./pages/Slider";
+import Profile from "./pages/Profile";
+import AdsAdd from "./pages/AdsAdd";
+import PostsAdd from "./pages/post/PostsAdd";
+import PostEdit from "./pages/post/PostEdit";
 
 const AdminApp = () => {
   return (
@@ -25,6 +29,10 @@ const AdminApp = () => {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/pages" element={<Pages />} />
         <Route path="/slider" element={<Slider />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/ads/add" element={<AdsAdd />} />
+        <Route path="/posts/add" element={<PostsAdd />} />
+        <Route path="/posts/edit" element={<PostEdit />} />
       </Routes>
     </Layout>
   );

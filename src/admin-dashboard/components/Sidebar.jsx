@@ -1,41 +1,151 @@
-// admin-dashboard/components/Sidebar.jsx
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
-const Sidebar = ({ open }) => {
+const Sidebar = ({ open, setOpen }) => {
+    const location = useLocation();
+    const [dropdown, setDropdown] = useState(null);
+
+    const menu = [
+        { name: "Dashboard", path: "/admin" },
+
+        {
+            name: "Posts",
+            children: [
+                { name: "Post List", path: "/admin/posts" },
+                { name: "Add Post", path: "/admin/posts/add" },
+                { name: "Edit Post", path: "/admin/posts/edit" },
+            ],
+        },
+
+        {
+            name: "Category",
+            children: [
+                { name: "Category List", path: "/admin/category-list" },
+                { name: "Add Category", path: "/admin/category" },
+                { name: "Edit Category", path: "/admin/category/edit" },
+
+            ],
+        },
+
+        {
+            name: "Users",
+            children: [
+                { name: "User List", path: "/admin/users" },
+                { name: "Add User", path: "/admin/users/add" },
+                { name: "Edit User", path: "/admin/users/edit" },
+            ],
+        },
+        {
+            name: "Ads",
+            children: [
+                { name: "Ads List", path: "/admin/ads" },
+                { name: "Add Ad", path: "/admin/ads/add" },
+                { name: "Edit Ad", path: "/admin/ads/edit" },
+            ],
+        },
+        {
+            name: "Gallery",
+            children: [
+                { name: "Gallery List", path: "/admin/gallery" },
+                { name: "Add Gallery", path: "/admin/gallery/add" },
+                { name: "Edit Gallery", path: "/admin/gallery/edit" },
+            ],
+        },
+        {
+            name: "Pages",
+            children: [
+                { name: "Pages List", path: "/admin/pages" },
+                { name: "Add Page", path: "/admin/pages/add" },
+                { name: "Edit Page", path: "/admin/pages/edit" },
+            ],
+        },
+        {
+            name: "Slider",
+            children: [
+                { name: "Slider List", path: "/admin/slider" },
+                { name: "Add Slider", path: "/admin/slider/add" },
+                { name: "Edit Slider", path: "/admin/slider/edit" },
+            ],
+        },
+    ];
+
     return (
-        <div className="border-r border-gray-200 rounded-2xl shadow hover:shadow-lg transition"
-            style={{
-                width: open ? "220px" : "60px",
-                height: "100vh",
-                background: "#ffffff",
-                color: "#333",
-                transition: "0.3s",
-                overflow: "hidden",
-            }}
-        >
-            <h3 className="font-bold rounded-2xl border-gray-950 hover:text-cyan-600" style={{ padding: "10px" }}>
-                {open ? "Admin Panel" : "AP"}
-            </h3>
+        <>
+            {/* Overlay (Mobile) */}
+            {open && (
+                <div
+                    onClick={() => setOpen(false)}
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"
+                />
+            )}
 
-            <nav className=""  style={{ display: "flex", flexDirection: "column" }}>
-                <Link to="/admin" style={link}>Dashboard</Link>
-                <Link to="/admin/users" style={link}>Users</Link>
-                <Link to="/admin/posts" style={link}>Posts</Link>
-                <Link to="/admin/category" style={link}>Category</Link>
-                <Link to="/admin/subcategory" style={link}>SubCategory</Link>
-                <Link to="/admin/ads" style={link}>Ads</Link>
-                <Link to="/admin/gallery" style={link}>Gallery</Link>
-                <Link to="/admin/pages" style={link}>Pages</Link>
-                <Link to="/admin/slider" style={link}>Slider</Link>
-            </nav>
-        </div>
+            {/* Sidebar */}
+            <div
+                className={`fixed md:static top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+            >
+                <div className="p-4 font-bold text-xl border-b">
+                    Admin Panel
+                </div>
+
+                <nav className="p-3 space-y-2">
+
+                    {menu.map((item, i) => (
+                        <div key={i}>
+
+                            {/* Normal Link */}
+                            {!item.children && (
+                                <Link
+                                    to={item.path}
+                                    onClick={() => setOpen(false)}
+                                    className={`block p-2 rounded ${location.pathname === item.path
+                                        ? "bg-blue-500 text-white"
+                                        : "hover:bg-gray-100"
+                                        }`}
+                                >
+                                    {item.name}
+                                </Link>
+                            )}
+
+                            {/* Dropdown Menu */}
+                            {item.children && (
+                                <div>
+                                    <button
+                                        onClick={() =>
+                                            setDropdown(dropdown === i ? null : i)
+                                        }
+                                        className="w-full text-left p-2 hover:bg-gray-100 rounded"
+                                    >
+                                        {item.name}
+                                    </button>
+
+                                    {dropdown === i && (
+                                        <div className="ml-4 mt-1 space-y-1">
+                                            {item.children.map((sub, idx) => (
+                                                <Link
+                                                    key={idx}
+                                                    to={sub.path}
+                                                    onClick={() => setOpen(false)}
+                                                    className={`block p-2 text-sm rounded ${location.pathname === sub.path
+                                                        ? "bg-blue-500 text-white"
+                                                        : "hover:bg-gray-100"
+                                                        }`}
+                                                >
+                                                    {sub.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                        </div>
+                    ))}
+
+                </nav>
+            </div>
+        </>
     );
-};
-
-const link = {
-    padding: "12px",
-    color: "black;",
-    textDecoration: "none",
 };
 
 export default Sidebar;
