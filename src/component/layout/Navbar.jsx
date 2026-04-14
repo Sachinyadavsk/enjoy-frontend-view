@@ -1,86 +1,147 @@
-import React, { useEffect, useState } from 'react';
-import { ShoppingCart, User, Menu, X, Search, Bell } from "lucide-react";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Menu, X, Search, Bell, User } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../shared/context/AuthContext";
+
 const API_URL = "https://enjoy-backend-api.onrender.com/api";
 
 const Navbar = () => {
-
     const [isOpen, setIsOpen] = useState(false);
     const [menuItems, setMenuItems] = useState([]);
+    const { user, setUser } = useAuth();
+    const navigate = useNavigate();
 
-    // Fetch menu from API
+    // Fetch menu
     useEffect(() => {
         fetch(`${API_URL}/categoriesmenu`)
-            .then(res => res.json())
-            .then(data => {
-                setMenuItems(data);
-            })
-            .catch(err => console.error("Menu API Error:", err));
+            .then((res) => res.json())
+            .then((data) => setMenuItems(data))
+            .catch((err) => console.error("Menu API Error:", err));
     }, []);
+
+    // Logout
+    const handleLogout = () => {
+        localStorage.clear();
+        setUser(null);
+        navigate("/login");
+    };
 
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4">
+
                 <div className="flex justify-between items-center h-16">
+
                     {/* Logo */}
-                    <div className="text-2xl font-bold text-blue-600">
+                    <Link to="/" className="text-2xl font-bold text-blue-600">
                         EnjoyVS
-                    </div>
+                    </Link>
+
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-6">
                         {menuItems.slice(0, 4).map((item, index) => (
-                            <Link key={index} to={item.slug} className="hover:text-blue-600">
+                            <Link
+                                key={index}
+                                to={`/category/${item.slug}`}   // ✅ FIXED
+                                className="hover:text-blue-600"
+                            >
                                 {item.name}
                             </Link>
                         ))}
-                        <Link to="/notifications" className="hover:text-blue-600">
-                            Notifications
-                        </Link>
-                        <Link to="/login" className="hover:text-blue-600">
-                            Login
-                        </Link>
+
+                        <Link to="/notifications">Notifications</Link>
                     </div>
-                    {/* Search Bar */}
+
+                    {/* Search */}
                     <div className="hidden md:flex items-center border rounded-lg px-2 py-1 w-1/3">
                         <Search size={18} className="text-gray-500" />
-                        <input type="text" placeholder="Search products..." className="outline-none px-2 w-full" />
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="outline-none px-2 w-full"
+                        />
                     </div>
 
-                    {/* Icons */}
-                    <div className="flex items-center space-x-4">
-                        {/* Mobile Menu Button */}
-                        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-                            {isOpen ? <X /> : <Menu />}
-                        </button>
+                    <div className="hidden md:flex items-center space-x-6">
+                        {/* 👇 AUTH BASED */}
+                        {!user ? (
+                            <Link to="/login">Login</Link>
+                        ) : (
+                            <>
+                                {user.role === "user" ? (
+                                    <Link to="/dashboard">Dashboard</Link>
+                                ) : (
+                                    <Link ></Link>
+                                )}
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-red-500"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        )}
                     </div>
+
+                    {/* Mobile Button */}
+                    <button
+                        className="md:hidden"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {isOpen ? <X /> : <Menu />}
+                    </button>
                 </div>
 
-                {/* Mobile Menu */}
+                {/* MOBILE MENU */}
                 {isOpen && (
                     <div className="md:hidden flex flex-col space-y-3 pb-4">
+
                         {menuItems.slice(0, 8).map((item, index) => (
-                            <Link key={index} to={item.slug} className="hover:text-blue-600">
+                            <Link
+                                key={index}
+                                to={`/category/${item.slug}`}
+                                onClick={() => setIsOpen(false)}
+                            >
                                 {item.name}
                             </Link>
                         ))}
 
-                        <Link to="/notifications">
-                            <Bell className="cursor-pointer hover:text-blue-600" />
-                        </Link>
-                        <Link to="/login">
-                            <User className="cursor-pointer hover:text-blue-600" />
-                        </Link>
+                        <Link to="/notifications">Notifications</Link>
+
+                        {!user ? (
+                            <Link to="/login">Login</Link>
+                        ) : (
+                            <>
+                                {user.role === "user" ? (
+                                    <Link to="/dashboard">Dashboard</Link>
+                                ) : (
+                                    <Link></Link>
+                                )}
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-red-500 text-left"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        )}
 
                         {/* Mobile Search */}
                         <div className="flex items-center border rounded-lg px-2 py-1">
-                            <Search size={18} className="text-gray-500" />
-                            <input type="text" placeholder="Search..." className="outline-none px-2 w-full" />
+                            <Search size={18} />
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                className="outline-none px-2 w-full"
+                            />
                         </div>
                     </div>
                 )}
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
