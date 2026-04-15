@@ -13,8 +13,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "Category List", path: "/admin/category/list" },
                 { name: "Add Category", path: "/admin/category/add" },
-                { name: "Edit Category", path: "/admin/category/edit" },
-
             ],
         },
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../../../shared/api/axios";
+import { Link } from "react-router-dom";
 
 const CategoryList = () => {
     const [data, setData] = useState([]);
@@ -16,6 +17,20 @@ const CategoryList = () => {
 
         fetchCategories();
     }, []);
+
+    const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete?");
+        if (!confirmDelete) return;
+        try {
+            await API.delete(`/categories/${id}`);
+            // Remove from UI instantly
+            setData(data.filter((item) => item._id !== id));
+            alert("Category deleted successfully");
+        } catch (err) {
+            console.error("Delete error", err);
+            alert("Delete failed");
+        }
+    };
 
     return (
         <div className="bg-white p-6 rounded-xl shadow-md">
@@ -48,15 +63,21 @@ const CategoryList = () => {
                                     </span>
                                 </td>
                                 <td className="p-2">{item.category_order}</td>
-                                
+
                                 <td className="p-2">
                                     {item.show_on_menu ? "Yes" : "No"}
                                 </td>
                                 <td className="p-2 space-x-2">
-                                    <button className="bg-blue-500 text-white px-2 py-1 rounded">
+                                    <Link
+                                        to={`/admin/category/edit/${item._id}`}
+                                        className="bg-blue-500 text-white px-2 py-1 rounded"
+                                    >
                                         Edit
-                                    </button>
-                                    <button className="bg-red-500 text-white px-2 py-1 rounded">
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(item._id)}
+                                        className="bg-red-500 text-white px-2 py-1 rounded"
+                                    >
                                         Delete
                                     </button>
                                 </td>

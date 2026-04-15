@@ -63,7 +63,7 @@ const AdminApp = () => {
         {/* category */}
         <Route path="/category/add" element={<Category />} />
         <Route path="/category/list" element={<CategoryList />} />
-        <Route path="/category/edit" element={<CategoryEdit />} />
+        <Route path="/category/edit/:id" element={<CategoryEdit />} />
       </Routes>
     </Layout>
   );
