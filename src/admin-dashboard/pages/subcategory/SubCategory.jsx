@@ -4,6 +4,21 @@ import { Link } from "react-router-dom";
 
 const SubCategory = () => {
   const [subCategories, setSubCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // For category dropdown
+
+  // categories by id name display in table
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await API.get("/categoriesmenu");
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchSubcategories = async () => {
@@ -19,13 +34,13 @@ const SubCategory = () => {
     fetchSubcategories();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDeleteSubCate = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
     try {
       await API.delete(`/subcategories/${id}`);
       // Remove from UI instantly
-      setData(data.filter((item) => item._id !== id));
+      setSubCategories(subCategories.filter((item) => item._id !== id));
       alert("Subcategory deleted successfully");
     } catch (err) {
       console.error("Delete error", err);
@@ -56,9 +71,19 @@ const SubCategory = () => {
               <tr key={index} className="border-t">
                 <td className="p-2">{item.name}</td>
                 <td className="p-2">{item.slug}</td>
-                <td className="p-2">{item.category_id}</td>
-                <td className="p-2">{item.photo}</td>
-                <td className="p-2">{item.banner}</td>
+                <td className="p-2">
+                  {categories.find((cat) => cat._id === item.category_id)?.name || item.category_id}
+                </td>
+                <td className="p-2">
+                  {item.photo && (
+                    <img src={item.photo} alt="Photo" className="w-10 h-10 rounded" />
+                  )}
+                </td>
+                <td className="p-2">
+                  {item.banner && (
+                    <img src={item.banner} alt="Banner" className="w-10 h-10 rounded" />
+                  )}
+                </td>
                 <td className="p-2">
                   {item.show_on_menu ? "Yes" : "No"}
                 </td>
@@ -70,7 +95,7 @@ const SubCategory = () => {
                     Edit
                   </Link>
                   <button
-                    onClick={() => handleDelete(item._id)}
+                    onClick={() => handleDeleteSubCate(item._id)}
                     className="bg-red-500 text-white px-2 py-1 rounded"
                   >
                     Delete

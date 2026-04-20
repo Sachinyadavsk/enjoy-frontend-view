@@ -44,14 +44,18 @@ const SubcategoryAdd = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
 
-    // auto update slug when name changes
     if (name === "name") {
       setForm({
         ...form,
         name: value,
         slug: generateSlug(value),
+      });
+    } else if (type === "file") {
+      setForm({
+        ...form,
+        [name]: files[0], // ✅ store file object
       });
     } else {
       setForm({
@@ -66,27 +70,37 @@ const SubcategoryAdd = () => {
     setError("");
     setSuccess("");
 
-    if (!form.name || !form.slug) {
+    if (!form.name || !form.slug || !form.category_id) {
       return setError("All fields are required");
     }
 
     try {
       setLoading(true);
 
-      const res = await API.post("/subcategories", form);
+      const formData = new FormData();
 
-      if (res.data && res.data.success) {
+      formData.append("uid", form.uid);
+      formData.append("category_id", form.category_id);
+      formData.append("name", form.name);
+      formData.append("slug", form.slug);
+      formData.append("show_on_menu", form.show_on_menu);
+
+      // ✅ FILES
+      if (form.photo) formData.append("photo", form.photo);
+      if (form.banner) formData.append("banner", form.banner);
+
+      const res = await API.post("/subcategories", formData); // ❗ no headers
+
+      if (res.data.success) {
         setSuccess("✅ Subcategory added successfully!");
-
-        // redirect after short delay
-        setTimeout(() => {
-          navigate("/admin/subcategory/list");
-        }, 1500);
+        setTimeout(() => navigate("/admin/subcategory/list"), 1500);
       } else {
-        setError("❌ Failed to add subcategory");
+        setError("❌ Failed");
       }
+
     } catch (err) {
-      setError(err.message ? err.message : "Subcategory failed. Try again.");
+      console.log(err.response?.data);
+      setError("Upload failed");
     } finally {
       setLoading(false);
     }
@@ -122,7 +136,7 @@ const SubcategoryAdd = () => {
           ) : (
             <p>Loading categories...</p>
           )}
-         
+
 
 
           {/* Name */}
@@ -147,24 +161,16 @@ const SubcategoryAdd = () => {
             className="border p-2 mb-3 rounded w-full"
           />
 
-          {/* Photo */}
-          <label className="block text-md mb-2 font-bold">Photo</label>
           <input
             type="file"
             name="photo"
-            placeholder="Photo URL"
-            value={form.photo}
             onChange={handleChange}
             className="p-2 mb-3 h-10 border rounded w-full"
           />
 
-          {/* Banner */}
-          <label className="block text-md mb-2 font-bold">Banner</label>
           <input
             type="file"
             name="banner"
-            placeholder="Banner URL"
-            value={form.banner}
             onChange={handleChange}
             className="border p-2 mb-3 rounded w-full"
           />

@@ -21,8 +21,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "SubCategory List", path: "/admin/subcategory/list" },
                 { name: "Add SubCategory", path: "/admin/subcategory/add" },
-                { name: "Edit SubCategory", path: "/admin/subcategory/edit" },
-
             ],
         },
 

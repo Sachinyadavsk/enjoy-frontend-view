@@ -43,11 +43,11 @@ const AdminApp = () => {
         {/* SubCategory */}
         <Route path="/subcategory/list" element={<SubCategory />} />
         <Route path="/subcategory/add" element={<SubcategoryAdd />} />
-        <Route path="/subcategory/edit" element={<SubcategoryEdit />} />
+        <Route path="/subcategory/edit/:id" element={<SubcategoryEdit />} />
         {/* Gallery */}
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/gallery/add" element={<GalleryAdd />} />
-        <Route path="/gallery/edit" element={<GalleryEdit />} />
+        <Route path="/gallery/edit/:id" element={<GalleryEdit />} />
         {/* slider */}
         <Route path="/slider" element={<Slider />} />
         <Route path="/slider/add" element={<SliderAdd />} />
@@ -59,7 +59,7 @@ const AdminApp = () => {
         {/* posts */}
         <Route path="/posts" element={<Posts />} />
         <Route path="/posts/add" element={<PostsAdd />} />
-        <Route path="/posts/edit" element={<PostEdit />} />
+        <Route path="/posts/edit/:id" element={<PostEdit />} />
         {/* category */}
         <Route path="/category/add" element={<Category />} />
         <Route path="/category/list" element={<CategoryList />} />
