@@ -29,7 +29,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "Gallery List", path: "/admin/gallery" },
                 { name: "Add Gallery", path: "/admin/gallery/add" },
-                { name: "Edit Gallery", path: "/admin/gallery/edit" },
             ],
         },
 
@@ -38,7 +37,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "Slider List", path: "/admin/slider" },
                 { name: "Add Slider", path: "/admin/slider/add" },
-                { name: "Edit Slider", path: "/admin/slider/edit" },
             ],
         },
         
@@ -47,7 +45,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "Ads List", path: "/admin/ads" },
                 { name: "Add Ad", path: "/admin/ads/add" },
-                { name: "Edit Ad", path: "/admin/ads/edit" },
             ],
         },
 
@@ -56,7 +53,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "Post List", path: "/admin/posts" },
                 { name: "Add Post", path: "/admin/posts/add" },
-                { name: "Edit Post", path: "/admin/posts/edit" },
             ],
         },
 

@@ -47,7 +47,7 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
-  const handleDeleteSubCate = async (id) => {
+  const handleDeletePosts = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
     try {
@@ -100,13 +100,13 @@ const Posts = () => {
                 
                 <td className="p-2 space-x-2">
                   <Link
-                    to={`/admin/subcategory/edit/${item._id}`}
+                    to={`/admin/posts/edit/${item._id}`}
                     className="bg-blue-500 text-white px-2 py-1 rounded"
                   >
                     Edit
                   </Link>
                   <button
-                    onClick={() => handleDeleteSubCate(item._id)}
+                    onClick={() => handleDeletePosts(item._id)}
                     className="bg-red-500 text-white px-2 py-1 rounded"
                   >
                     Delete

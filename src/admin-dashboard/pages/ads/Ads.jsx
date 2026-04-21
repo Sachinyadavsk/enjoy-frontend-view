@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../../../shared/api/axios";
+import { Link } from "react-router-dom";
 
 const Ads = () => {
   const [adsdata, setAdsData] = useState([]);
@@ -9,20 +10,10 @@ const Ads = () => {
     const fetchAds = async () => {
       try {
         const res = await API.get("/ads");
-
-        console.log("API Response:", res.data);
-
         // ✅ Handle different API response structures
-        const adsArray =
-          res?.data?.data ||
-          res?.data?.ads ||
-          res?.data ||
-          [];
-
-        setAdsData(Array.isArray(adsArray) ? adsArray : []);
+        setAdsData(res.data.data);
       } catch (err) {
         console.error("Error fetching ads:", err);
-        setAdsData([]);
       } finally {
         setLoading(false);
       }
@@ -30,6 +21,20 @@ const Ads = () => {
 
     fetchAds();
   }, []);
+
+  const handleDeleteAds = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    if (!confirmDelete) return;
+    try {
+      await API.delete(`/ads/${id}`);
+      // Remove from UI instantly
+      setAdsData(adsdata.filter((item) => item._id !== id));
+      alert("ads deleted successfully");
+    } catch (err) {
+      console.error("Delete error", err);
+      alert("Delete failed");
+    }
+  };
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md">
@@ -68,7 +73,7 @@ const Ads = () => {
                       <img
                         src={item.banner_image}
                         alt="banner"
-                        className="w-24 h-12 object-cover rounded"
+                        className="w-8 h-8 object-cover rounded"
                       />
                     ) : (
                       <span className="text-gray-400">No Image</span>
@@ -78,11 +83,10 @@ const Ads = () => {
                   {/* ✅ Status Badge */}
                   <td className="p-2">
                     <span
-                      className={`px-2 py-1 rounded text-white text-sm ${
-                        item.status === "active"
-                          ? "bg-green-500"
-                          : "bg-red-500"
-                      }`}
+                      className={`px-2 py-1 rounded text-white text-sm ${item.status === "active"
+                        ? "bg-green-500"
+                        : "bg-red-500"
+                        }`}
                     >
                       {item.status}
                     </span>
@@ -90,10 +94,16 @@ const Ads = () => {
 
                   {/* ✅ Actions */}
                   <td className="p-2 space-x-2">
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                    <Link
+                      to={`/admin/ads/edit/${item._id}`}
+                      className="bg-blue-500 text-white px-2 py-1 rounded"
+                    >
                       Edit
-                    </button>
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteAds(item._id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
                       Delete
                     </button>
                   </td>
