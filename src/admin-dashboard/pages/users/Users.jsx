@@ -1,78 +1,79 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from "react";
+import API from "../../../shared/api/axios";
+import { Link } from "react-router-dom";
 
 const Users = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: ""
-  });
+  const [data, setData] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await API.get("/users/allusers");
+        setData(res.data.users);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
 
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
+    fetchUsers();
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(form);
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    if (!confirmDelete) return;
+    try {
+      await API.delete(`/users/delete/${id}`);
+      // Remove from UI instantly
+      setData(data.filter((item) => item._id !== id));
+      alert("Users deleted successfully");
+    } catch (err) {
+      console.error("Delete error", err);
+      alert("Delete failed");
+    }
   };
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Add User</h2>
-      <div className="max-w-2xl mx-auto py-10 px-4 border rounded hover:rounded-lg shadow-lg transition hover:bg-gray-100">
-        <form
-          onSubmit={handleSubmit}
-          className="gap-4"
-        >
-          {/* Name */}
-          <label className="block text-md mb-2 font-bold">User Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="User Name"
-            value={form.name}
-            onChange={handleChange}
-            className="border p-2 mb-3 rounded w-full"
-          />
+      <h2 className="text-xl font-semibold mb-4">Users List</h2>
 
-          {/* email */}
-          <label className="block text-md mb-2 font-bold">Email</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-            className="border p-2 mb-3 rounded w-full"
-          />
+      <div className="table table-responsive">
+        <table className="w-full border">
+          <thead className="bg-black text-white">
+            <tr>
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Role</th>
+              <th className="p-2 text-left">Action</th>
+            </tr>
+          </thead>
 
-          {/* Password */}
-          <div>
-            <label className="block text-md mb-2 font-bold">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="p-2 mb-3 h-10 border rounded w-full"
-            />
-          </div>
-
-          {/* Button */}
-          <button
-            type="submit"
-            className="w-[200px] bg-blue-600 text-white px-1 py-1 rounded hover:bg-blue-700 transition">
-            Save User
-          </button>
-        </form>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index} className="border-t">
+                <td className="p-2">{item.name}</td>
+                <td className="p-2">{item.email}</td>
+                <td className="p-2">{item.role}</td>
+                <td className="p-2 space-x-2">
+                  <Link
+                    to={`/admin/users/edit/${item._id}`}
+                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
 
-export default Users
+export default Users;

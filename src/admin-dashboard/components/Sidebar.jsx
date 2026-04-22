@@ -61,7 +61,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "User List", path: "/admin/users" },
                 { name: "Add User", path: "/admin/users/add" },
-                { name: "Edit User", path: "/admin/users/edit" },
             ],
         },
 
@@ -70,7 +69,6 @@ const Sidebar = ({ open, setOpen }) => {
             children: [
                 { name: "Pages List", path: "/admin/pages" },
                 { name: "Add Page", path: "/admin/pages/add" },
-                { name: "Edit Page", path: "/admin/pages/edit" },
             ],
         }
 

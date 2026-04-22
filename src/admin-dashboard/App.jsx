@@ -25,6 +25,8 @@ import SubcategoryAdd from "./pages/subcategory/SubcategoryAdd";
 import SubcategoryEdit from "./pages/subcategory/SubcategoryEdit";
 import GalleryAdd from "./pages/gallery/GalleryAdd";
 import GalleryEdit from "./pages/gallery/GalleryEdit";
+import PageAdd from "./pages/PageAdd";
+import PageEdit from "./pages/PageEdit";
 
 
 
@@ -35,6 +37,8 @@ const AdminApp = () => {
         {/* pages */}
         <Route path="/" element={<Dashboard />} />
         <Route path="/pages" element={<Pages />} />
+        <Route path="/pages/add" element={<PageAdd />} />
+        <Route path="/pages/edit/:id" element={<PageEdit/>} />
         {/* users */}
         <Route path="/users" element={<Users />} />
         <Route path="/profile" element={<Profile />} />
