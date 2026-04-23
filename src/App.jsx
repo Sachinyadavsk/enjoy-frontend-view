@@ -10,6 +10,7 @@ import AdminApp from "./admin-dashboard/App";
 import ProtectedRoute from "./shared/ProtectedRoute.jsx";
 import AdminRoute from "./shared/AdminRoute.jsx";
 import AllCategories from './component/pages/AllCategories.jsx';
+import DetailsPost from './component/pages/DetailsPost.jsx';
 
 const App = () => {
   const location = useLocation();
@@ -27,6 +28,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/all-category" element={<AllCategories />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/post/edit/:id" element={<DetailsPost />} />
+        
         {/* Client */}
         <Route
           path="/dashboard/*"

@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import API from "../../shared/api/axios"
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [bannerItems, setBannerItems] = useState([]);
@@ -244,33 +245,24 @@ const Home = () => {
                   </p>
                 ) : (
                   filteredPosts.map(post => (
-                    <div
-                      key={post._id}
-                      className="card bg-base-100 shadow-md hover:shadow-lg transition"
-                    >
-                      <figure>
-                        {post.video_path ? (
-                          <video
-                            src={post.video_path}
-                            poster={post.image_big}
-                            controls
-                            className="h-32 w-full object-cover"
-                          />
-                        ) : (
-                          <img
-                            src={post.image_big || "https://via.placeholder.com/300"}
-                            alt={post.title}
-                            className="h-32 w-full object-cover"
-                          />
-                        )}
-                      </figure>
+                    <Link to={`/post/edit/${post._id}`}> 
+                      <div
+                        key={post._id}
+                        className="card bg-base-100 shadow-md hover:shadow-lg transition"
+                      >
+                        <img
+                          src={post.image_big || "https://via.placeholder.com/300"}
+                          alt={post.title}
+                          className="h-32 w-full object-cover"
+                        />
 
-                      <div className="card-body p-3">
-                        <h2 className="text-sm font-semibold line-clamp-2">
-                          {post.title}
-                        </h2>
+                        <div className="card-body p-3">
+                          <h2 className="text-sm font-semibold line-clamp-2">
+                            {post.title}
+                          </h2>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   ))
                 )}
 
@@ -281,7 +273,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto mt-10">
           <h2 className="text-2xl font-bold text-gray-800 p-6">Featured Videos</h2>
           <div className="border rounded-lg shadow hover:shadow-lg transition duration-300 p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
               {posts.length === 0 ? (
                 <p className="col-span-full text-center text-gray-500">
                   No posts found

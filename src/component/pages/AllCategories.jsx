@@ -99,7 +99,7 @@ const AllCategories = () => {
                 <div className="max-w-6xl mx-auto mt-10">
                     <h2 className="text-2xl font-bold text-gray-800 p-6">Featured Videos</h2>
                     <div className="border rounded-lg shadow hover:shadow-lg transition duration-300 p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mt-6">
                             {allcategories.length === 0 ? (
                                 <p className="col-span-full text-center text-gray-500">
                                     No Sub Category found
