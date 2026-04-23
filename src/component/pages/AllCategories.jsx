@@ -105,7 +105,7 @@ const AllCategories = () => {
                                     No Sub Category found
                                 </p>
                             ) : (
-                                allcategories.slice(0, 3).map(subcat => (
+                                allcategories.map(subcat => (
                                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
                                         <img src={subcat.photo || "https://via.placeholder.com/300"} alt="Featured Video 1" />
                                         <div className="p-4">

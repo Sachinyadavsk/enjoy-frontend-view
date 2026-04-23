@@ -8,19 +8,22 @@ const Home = () => {
   const [current, setCurrent] = useState(0);
   const [categories, setCategories] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [postsgallery, setPostsGallery] = useState([]);
   const [activeTab, setActiveTab] = useState("All");
   const [loading, setLoading] = useState(true);
 
   // Fetch sliders using Axios
   useEffect(() => {
-    axios.get(`${API}/sliders`)
-      .then((response) => {
-        const sliders = response.data.data || response.data.sliders || response.data;
-        setBannerItems(Array.isArray(sliders) ? sliders : []);
-      })
-      .catch((error) => {
-        console.error("API Error:", error);
-      });
+    const fetchSliders = async () => {
+      try {
+        const res = await API.get("/sliders");
+        setBannerItems(res.data.data);
+      } catch (err) {
+        console.error("Error fetching sliders:", err);
+      }
+    };
+
+    fetchSliders();
   }, []);
 
 
@@ -36,28 +39,55 @@ const Home = () => {
 
   // ✅ Fetch Categories
   useEffect(() => {
-    fetch(`${API}/categoriesmenu`)
-      .then(res => res.json())
-      .then(data => {
-        setCategories(Array.isArray(data) ? data : []);
-      })
-      .catch(err => console.error("Category Error:", err));
+    const fetchCategories = async () => {
+      try {
+        const res = await API.get("/categoriesmenu");
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Error fetching sliders:", err);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   // ✅ Fetch Posts
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await API.get("/posts");
+        setPosts(res.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching sliders:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // get signal post image
+
+  const post_id = posts?.length > 0 ? posts[0]._id : null;
 
   useEffect(() => {
-    axios.get(`${API}/posts`)
-      .then((response) => {
-        const posts = response.data.data || response.data.sliders || response.data;
-        setPosts(Array.isArray(posts) ? posts : []);
+    if (!post_id) return;
+
+    const fetchPostsGallery = async () => {
+      try {
+        const res = await API.get(`/gallery/images/${post_id}`);
+        setPostsGallery(res.data.data);
+        console.log("Fetched gallery:", res.data.data[0]);
+      } catch (err) {
+        console.error("Error fetching gallery", err);
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Post Error:", error);
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchPostsGallery();
+  }, [post_id]);
 
   // ✅ Filter using category_id
   const filteredPosts =
@@ -120,9 +150,56 @@ const Home = () => {
               <div className="">
                 <h3 className="text-lg font-bold text-gray-800">Video Hot section in display with latest</h3>
                 <p className="text-lg text-gray-600">Check out our latest videos!</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {postsgallery.flatMap((gall, index) =>
+                    gall.image_path?.map((img, i) => (
+                      <img
+                        key={`${index}-${i}`}
+                        src={img}
+                        alt={gall.caption}
+                        className="w-full h-40 object-cover rounded"
+                      />
+                    ))
+                  )}
+                </div>
+
               </div>
               <div className="">
-                <img src="path/to/your/image.jpg" alt="Latest Video" />
+                {posts.length === 0 ? (
+                  <p className="col-span-full text-center text-gray-500">
+                    No posts found
+                  </p>
+                ) : (
+                  posts.slice(0, 1).map(post => (
+                    <div
+                      key={post._id}
+                      className="card bg-base-100 shadow-md hover:shadow-lg transition"
+                    >
+                      <figure>
+                        {post.video_path ? (
+                          <video
+                            src={post.video_path}
+                            poster={post.image_big}
+                            controls
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <img
+                            src={post.image_big || "https://via.placeholder.com/300"}
+                            alt={post.title}
+                            className="h-full w-full object-cover"
+                          />
+                        )}
+                      </figure>
+
+                      <div className="card-body p-3">
+                        <h2 className="text-sm font-semibold line-clamp-2">
+                          {post.title}
+                        </h2>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -213,12 +290,12 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-gray-800 p-6">Featured Videos</h2>
           <div className="border rounded-lg shadow hover:shadow-lg transition duration-300 p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-              {filteredPosts.length === 0 ? (
+              {posts.length === 0 ? (
                 <p className="col-span-full text-center text-gray-500">
                   No posts found
                 </p>
               ) : (
-                filteredPosts.slice(0, 3).map(post => (
+                posts.slice(0, 3).map(post => (
                   <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <img src={post.image_big || "https://via.placeholder.com/300"} alt="Featured Video 1" />
                     <div className="p-4">
