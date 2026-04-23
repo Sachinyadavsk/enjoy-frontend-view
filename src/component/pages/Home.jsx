@@ -148,8 +148,6 @@ const Home = () => {
           <div className="border rounded-lg shadow hover:shadow-lg transition duration-300 p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="">
-                <h3 className="text-lg font-bold text-gray-800">Video Hot section in display with latest</h3>
-                <p className="text-lg text-gray-600">Check out our latest videos!</p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {postsgallery.flatMap((gall, index) =>
                     gall.image_path?.map((img, i) => (
@@ -191,12 +189,6 @@ const Home = () => {
                           />
                         )}
                       </figure>
-
-                      <div className="card-body p-3">
-                        <h2 className="text-sm font-semibold line-clamp-2">
-                          {post.title}
-                        </h2>
-                      </div>
                     </div>
                   ))
                 )}
