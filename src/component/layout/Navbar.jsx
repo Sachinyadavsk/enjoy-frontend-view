@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Menu, X, Search, Bell, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../shared/context/AuthContext";
+import API from "../../shared/api/axios"
 
-const API_URL = "https://enjoy-backend-api.onrender.com/api";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,10 +13,15 @@ const Navbar = () => {
 
     // Fetch menu
     useEffect(() => {
-        fetch(`${API_URL}/categoriesmenu`)
-            .then((res) => res.json())
-            .then((data) => setMenuItems(data))
-            .catch((err) => console.error("Menu API Error:", err));
+        const fetchMenuCate = async () => {
+            try {
+                const res = await API.get("/categoriesmenu");
+                setMenuItems(res.data);
+            } catch (err) {
+                console.error("Error fetching categoriesmenu:", err);
+            }
+        };
+        fetchMenuCate();
     }, []);
 
     // Logout
@@ -48,7 +53,7 @@ const Navbar = () => {
                                 {item.name}
                             </Link>
                         ))}
-
+                        <Link to="/all-category">All Category</Link>
                         <Link to="/notifications">Notifications</Link>
                     </div>
 
@@ -106,7 +111,7 @@ const Navbar = () => {
                                 {item.name}
                             </Link>
                         ))}
-
+                        <Link to="/all-category">All Category</Link>
                         <Link to="/notifications">Notifications</Link>
 
                         {!user ? (

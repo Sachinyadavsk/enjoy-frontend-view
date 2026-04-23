@@ -9,6 +9,7 @@ import ClientApp from "./client-dashboard/App";
 import AdminApp from "./admin-dashboard/App";
 import ProtectedRoute from "./shared/ProtectedRoute.jsx";
 import AdminRoute from "./shared/AdminRoute.jsx";
+import AllCategories from './component/pages/AllCategories.jsx';
 
 const App = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/all-category" element={<AllCategories />} />
         <Route path="/notifications" element={<Notifications />} />
         {/* Client */}
         <Route
