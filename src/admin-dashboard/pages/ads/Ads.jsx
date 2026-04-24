@@ -10,7 +10,7 @@ const Ads = () => {
     const fetchAds = async () => {
       try {
         const res = await API.get("/ads");
-        // ✅ Handle different API response structures
+        //  Handle different API response structures
         setAdsData(res.data.data);
       } catch (err) {
         console.error("Error fetching ads:", err);
@@ -40,11 +40,11 @@ const Ads = () => {
     <div className="bg-white p-6 rounded-xl shadow-md">
       <h2 className="text-xl font-semibold mb-4">Ads List</h2>
 
-      {/* ✅ Loading State */}
+      {/*  Loading State */}
       {loading ? (
         <p className="text-gray-500">Loading ads...</p>
       ) : adsdata.length === 0 ? (
-        /* ✅ Empty State */
+        /*  Empty State */
         <p className="text-gray-500">No ads found</p>
       ) : (
         <div className="overflow-x-auto">
@@ -67,7 +67,7 @@ const Ads = () => {
                   <td className="p-2">{item.addSize}</td>
                   <td className="p-2">{item.click}</td>
 
-                  {/* ✅ Image Preview */}
+                  {/*  Image Preview */}
                   <td className="p-2">
                     {item.banner_image ? (
                       <img
@@ -80,7 +80,7 @@ const Ads = () => {
                     )}
                   </td>
 
-                  {/* ✅ Status Badge */}
+                  {/*  Status Badge */}
                   <td className="p-2">
                     <span
                       className={`px-2 py-1 rounded text-white text-sm ${item.status === "active"
@@ -92,7 +92,7 @@ const Ads = () => {
                     </span>
                   </td>
 
-                  {/* ✅ Actions */}
+                  {/*  Actions */}
                   <td className="p-2 space-x-2">
                     <Link
                       to={`/admin/ads/edit/${item._id}`}

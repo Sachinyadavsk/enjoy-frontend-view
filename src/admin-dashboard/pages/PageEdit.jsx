@@ -36,7 +36,7 @@ const PageEdit = () => {
       fetchPage();
   }, [id]);
 
-  // ✅ Auto slug generator
+  //  Auto slug generator
   const generateSlug = (text) => {
     return text
       .toLowerCase()
@@ -77,7 +77,7 @@ const PageEdit = () => {
       const res = await API.put(`/pages/${id}`, form);
 
       if (res.data?.data && res.data?.success) {
-        setSuccess("✅ Page update successfully!");
+        setSuccess(" Page update successfully!");
 
         setTimeout(() => {
           navigate("/admin/pages");

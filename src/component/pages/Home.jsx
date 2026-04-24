@@ -38,7 +38,7 @@ const Home = () => {
   }, [bannerItems]);
 
 
-  // ✅ Fetch Categories
+  //  Fetch Categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -52,7 +52,7 @@ const Home = () => {
     fetchCategories();
   }, []);
 
-  // ✅ Fetch Posts
+  //  Fetch Posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -90,7 +90,7 @@ const Home = () => {
     fetchPostsGallery();
   }, [post_id]);
 
-  // ✅ Filter using category_id
+  //  Filter using category_id
   const filteredPosts =
     activeTab === "All"
       ? posts
@@ -208,7 +208,7 @@ const Home = () => {
             {/* 🔥 Tabs */}
             <div className="flex gap-3 mb-6 justify-end flex-wrap">
 
-              {/* ✅ ALL TAB */}
+              {/*  ALL TAB */}
               <button
                 onClick={() => setActiveTab("All")}
                 className={`btn ${activeTab === "All" ? "btn-primary" : "btn-outline"
@@ -217,7 +217,7 @@ const Home = () => {
                 All
               </button>
 
-              {/* ✅ CATEGORY TABS (use _id) */}
+              {/*  CATEGORY TABS (use _id) */}
               {categories.map(cat => (
                 <button
                   key={cat._id}

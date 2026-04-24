@@ -19,7 +19,7 @@ const PageAdd = () => {
         wbsite_right_column: true,
     });
 
-    // ✅ Auto slug generator
+    //  Auto slug generator
     const generateSlug = (text) => {
         return text
             .toLowerCase()
@@ -60,7 +60,7 @@ const PageAdd = () => {
             const res = await API.post("/pages", form);
 
             if (res.data?.data && res.data?.success) {
-                setSuccess("✅ Page added successfully!");
+                setSuccess(" Page added successfully!");
 
                 setTimeout(() => {
                     navigate("/admin/pages");

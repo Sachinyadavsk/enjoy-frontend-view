@@ -55,7 +55,7 @@ const SubcategoryAdd = () => {
     } else if (type === "file") {
       setForm({
         ...form,
-        [name]: files[0], // ✅ store file object
+        [name]: files[0], //  store file object
       });
     } else {
       setForm({
@@ -85,14 +85,14 @@ const SubcategoryAdd = () => {
       formData.append("slug", form.slug);
       formData.append("show_on_menu", form.show_on_menu);
 
-      // ✅ FILES
+      //  FILES
       if (form.photo) formData.append("photo", form.photo);
       if (form.banner) formData.append("banner", form.banner);
 
       const res = await API.post("/subcategories", formData); // ❗ no headers
 
       if (res.data.success) {
-        setSuccess("✅ Subcategory added successfully!");
+        setSuccess(" Subcategory added successfully!");
         setTimeout(() => navigate("/admin/subcategory/list"), 1500);
       } else {
         setError("❌ Failed");

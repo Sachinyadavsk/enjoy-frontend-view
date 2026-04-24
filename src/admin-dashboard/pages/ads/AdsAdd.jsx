@@ -26,7 +26,7 @@ const AdsAdd = () => {
     } else if (type === "file") {
       setForm({
         ...form,
-        [name]: files[0], // ✅ store file object
+        [name]: files[0], //  store file object
       });
     } else {
       setForm({
@@ -53,11 +53,11 @@ const AdsAdd = () => {
       formData.append("click", form.click);
       formData.append("status", form.status);
 
-      // ✅ FILES
+      //  FILES
       if (form.banner_image) formData.append("banner_image", form.banner_image);
       const res = await API.post("/ads", formData); // ❗ no headers
       if (res.data.success) {
-        setSuccess("✅ ads added successfully!");
+        setSuccess(" ads added successfully!");
         setTimeout(() => navigate("/admin/ads"), 1500);
       } else {
         setError("❌ Failed");

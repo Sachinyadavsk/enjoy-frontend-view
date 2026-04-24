@@ -35,7 +35,7 @@ const PostEdit = () => {
     status: "published",
   });
 
-  // ✅ Fetch Post Data
+  //  Fetch Post Data
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -69,27 +69,27 @@ const PostEdit = () => {
     fetchPost();
   }, [id]);
 
-  // ✅ Categories
+  //  Categories
   useEffect(() => {
     API.get("/categoriesmenu")
       .then(res => setCategories(res.data))
       .catch(console.log);
   }, []);
 
-  // ✅ Subcategories
+  //  Subcategories
   useEffect(() => {
     API.get("/subcategories")
       .then(res => setSubCategories(res.data.data))
       .catch(console.log);
   }, []);
 
-  // ✅ Slug
+  //  Slug
   const generateSlug = (text) =>
     text.toLowerCase().trim()
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-");
 
-  // ✅ Change handler
+  //  Change handler
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
 
@@ -123,7 +123,7 @@ const PostEdit = () => {
     }
   };
 
-  // ✅ Update Submit
+  //  Update Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -145,11 +145,11 @@ const PostEdit = () => {
         }
       });
 
-      // ✅ IMPORTANT: use PUT or PATCH
+      //  IMPORTANT: use PUT or PATCH
       const res = await API.put(`/posts/${id}`, formData);
 
       if (res.data.success) {
-        setSuccess("✅ Post updated successfully!");
+        setSuccess(" Post updated successfully!");
         setTimeout(() => navigate("/admin/posts"), 1500);
       } else {
         setError("Update failed");

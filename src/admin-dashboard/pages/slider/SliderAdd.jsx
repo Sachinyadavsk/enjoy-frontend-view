@@ -42,7 +42,7 @@ const SliderAdd = () => {
     } else if (type === "file") {
       setForm({
         ...form,
-        [name]: files[0], // ✅ store file object
+        [name]: files[0], //  store file object
       });
     } else {
       setForm({
@@ -69,11 +69,11 @@ const SliderAdd = () => {
       formData.append("url_slider", form.url_slider);
       formData.append("slider_type", form.slider_type);
 
-      // ✅ FILES
+      //  FILES
       if (form.photo) formData.append("photo", form.photo);
       const res = await API.post("/sliders", formData); // ❗ no headers
       if (res.data.success) {
-        setSuccess("✅ slider added successfully!");
+        setSuccess(" slider added successfully!");
         setTimeout(() => navigate("/admin/slider"), 1500);
       } else {
         setError("❌ Failed");

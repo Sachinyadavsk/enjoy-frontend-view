@@ -21,14 +21,14 @@ const SliderEdit = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // ✅ Fetch categories
+  //  Fetch categories
   useEffect(() => {
     API.get("/categoriesmenu")
       .then(res => setCategories(res.data))
       .catch(err => console.error(err));
   }, []);
 
-  // ✅ Fetch slider data
+  //  Fetch slider data
   useEffect(() => {
     const fetchSlider = async () => {
       try {
@@ -60,7 +60,7 @@ const SliderEdit = () => {
     fetchSlider();
   }, [id]);
 
-  // ✅ Handle change
+  //  Handle change
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
@@ -72,7 +72,7 @@ const SliderEdit = () => {
     } else if (type === "file") {
       setForm({
         ...form,
-        [name]: files[0], // ✅ store file object
+        [name]: files[0], //  store file object
       });
     } else {
       setForm({
@@ -82,7 +82,7 @@ const SliderEdit = () => {
     }
   };
 
-  // ✅ Slider Type Button Select
+  //  Slider Type Button Select
   const handleSliderType = (type) => {
     setForm({
       ...form,
@@ -90,7 +90,7 @@ const SliderEdit = () => {
     });
   };
 
-  // ✅ Submit
+  //  Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -108,11 +108,11 @@ const SliderEdit = () => {
       formData.append("url_slider", form.url_slider);
       formData.append("slider_type", form.slider_type);
 
-      // ✅ FILES
+      //  FILES
       if (form.photo) formData.append("photo", form.photo);
       const res = await API.put(`/sliders/${id}`, formData);
       if (res.data.success) {
-        setSuccess("✅ slider updated  successfully!");
+        setSuccess(" slider updated  successfully!");
         setTimeout(() => navigate("/admin/slider"), 1500);
       } else {
         setError("❌ Failed");

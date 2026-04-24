@@ -76,7 +76,7 @@ const UsersEdit = () => {
       const res = await API.put(`/users/update/${id}`, payload);
 
       if (res.data.success) {
-        setSuccess("✅ User updated successfully!");
+        setSuccess(" User updated successfully!");
 
         setTimeout(() => {
           navigate("/admin/users");

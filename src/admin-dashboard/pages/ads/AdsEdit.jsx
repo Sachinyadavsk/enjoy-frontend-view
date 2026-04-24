@@ -18,7 +18,7 @@ const AdsEdit = () => {
     status: "active",
   });
 
-  // ✅ Handle Input Change
+  //  Handle Input Change
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
@@ -35,7 +35,7 @@ const AdsEdit = () => {
     }
   };
 
-  // ✅ Fetch Ads Data
+  //  Fetch Ads Data
   useEffect(() => {
     const fetchAds = async () => {
       try {
@@ -53,7 +53,7 @@ const AdsEdit = () => {
     fetchAds();
   }, [id]);
 
-  // ✅ Placement Type
+  //  Placement Type
   const handlePlacementType = (type) => {
     setForm({
       ...form,
@@ -61,7 +61,7 @@ const AdsEdit = () => {
     });
   };
 
-  // ✅ Submit
+  //  Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -80,7 +80,7 @@ const AdsEdit = () => {
       formData.append("click", form.click);
       formData.append("status", form.status);
 
-      // ✅ only send new file
+      //  only send new file
       if (form.banner_image instanceof File) {
         formData.append("banner_image", form.banner_image);
       }
@@ -88,7 +88,7 @@ const AdsEdit = () => {
       const res = await API.put(`/ads/${id}`, formData);
 
       if (res.data.success) {
-        setSuccess("✅ Ads updated successfully!");
+        setSuccess(" Ads updated successfully!");
         setTimeout(() => navigate("/admin/ads"), 1500);
       } else {
         setError("❌ Failed to update ads");
@@ -111,7 +111,7 @@ const AdsEdit = () => {
       <div className="max-w-2xl mx-auto py-10 px-4 border rounded shadow-lg">
         <form onSubmit={handleSubmit}>
 
-          {/* ✅ Image Upload */}
+          {/*  Image Upload */}
           <label className="block text-md mb-2 font-bold">
             Banner Image
           </label>
@@ -136,7 +136,7 @@ const AdsEdit = () => {
             className="p-2 mb-3 h-10 border rounded w-full"
           />
 
-          {/* ✅ Placement Type */}
+          {/*  Placement Type */}
           <label className="block text-md mb-2 font-bold">
             Placement Type
           </label>
@@ -165,7 +165,7 @@ const AdsEdit = () => {
             </button>
           </div>
 
-          {/* ✅ Submit */}
+          {/*  Submit */}
           <button
             type="submit"
             disabled={loading}

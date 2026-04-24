@@ -21,7 +21,7 @@ const GalleryAdd = () => {
   const [form, setForm] = useState({
     uid: "1",
     post_id: "",
-    image_path: [], // ✅ array for multiple images
+    image_path: [], //  array for multiple images
     caption: "image section",
   });
 
@@ -36,7 +36,7 @@ const GalleryAdd = () => {
     if (type === "file") {
       setForm({
         ...form,
-        [name]: Array.from(files), // ✅ store all files
+        [name]: Array.from(files), //  store all files
       });
     } else {
       setForm({
@@ -65,7 +65,7 @@ const GalleryAdd = () => {
       formData.append("post_id", form.post_id);
       formData.append("caption", form.caption);
 
-      // ✅ MULTIPLE FILES
+      //  MULTIPLE FILES
       form.image_path.forEach((file) => {
         formData.append("image_path", file);
       });
@@ -73,7 +73,7 @@ const GalleryAdd = () => {
       const res = await API.post("/gallery", formData);
 
       if (res.data.success) {
-        setSuccess("✅ Gallery uploaded successfully!");
+        setSuccess(" Gallery uploaded successfully!");
         setTimeout(() => navigate("/admin/gallery"), 1500);
       } else {
         setError("❌ Failed");
@@ -117,10 +117,10 @@ const GalleryAdd = () => {
             <p>Loading posts...</p>
           )}
 
-          {/* ✅ MULTIPLE IMAGE INPUT */}
+          {/*  MULTIPLE IMAGE INPUT */}
           <input
             type="file"
-            name="image_path"   // ✅ FIXED NAME
+            name="image_path"   //  FIXED NAME
             onChange={handleChange}
             className="p-2 mb-3 border rounded w-full"
             multiple

@@ -33,7 +33,7 @@ const UsersAdd = () => {
       setLoading(true);
       const res = await API.post("/users/register", form);
       if (res.data.user && res.data.success) {
-        setSuccess("✅ Users added successfully!");
+        setSuccess(" Users added successfully!");
         // / redirect after short delay
         setTimeout(() => {
           navigate("/admin/users");

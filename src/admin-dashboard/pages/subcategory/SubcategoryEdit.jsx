@@ -75,7 +75,7 @@ const SubcategoryEdit = () => {
     } else if (type === "file") {
       setForm({
         ...form,
-        [name]: files[0], // ✅ store file object
+        [name]: files[0], //  store file object
       });
     } else {
       setForm({

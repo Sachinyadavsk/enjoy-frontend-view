@@ -113,7 +113,7 @@ const GalleryEdit = () => {
       const res = await API.put(`/gallery/${id}`, formData);
 
       if (res.data.success) {
-        setSuccess("✅ Updated successfully!");
+        setSuccess(" Updated successfully!");
         setTimeout(() => navigate("/admin/gallery"), 1500);
       } else {
         setError("Failed");
@@ -171,7 +171,7 @@ const GalleryEdit = () => {
             <img
               key={i}
               src={URL.createObjectURL(file)}
-              className="w-15 h-15 rounded"
+              className="w-5 h-5 rounded"
             />
           ))}
         </div>

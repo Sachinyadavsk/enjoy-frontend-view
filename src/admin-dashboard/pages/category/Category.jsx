@@ -62,7 +62,7 @@ const Category = () => {
       const res = await API.post("/categories", form);
 
       if (res.data && res.data.success) {
-        setSuccess("✅ Category added successfully!");
+        setSuccess(" Category added successfully!");
 
         // redirect after short delay
         setTimeout(() => {

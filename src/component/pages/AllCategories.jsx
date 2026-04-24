@@ -46,7 +46,7 @@ const AllCategories = () => {
         fetchAllCategories();
     }, []);
 
-    // ✅ Fetch Posts
+    //  Fetch Posts
 
 
 
@@ -107,7 +107,7 @@ const AllCategories = () => {
                             ) : (
                                 allcategories.map(subcat => (
                                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                                        <img src={subcat.photo || "https://via.placeholder.com/300"} alt="Featured Video 1" />
+                                        <img src={subcat.photo || "https://via.placeholder.com/300"} alt="Featured Video 1" className='w-full' />
                                         <div className="p-4">
                                             <h3 className="text-lg font-bold text-gray-800">{subcat.name}</h3>
                                         </div>

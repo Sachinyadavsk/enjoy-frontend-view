@@ -70,7 +70,7 @@ const Gallery = () => {
                 </td>
                   {/* // array image_path is array of string */}
                 <td className="p-2">
-                  {/* <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2">
                   {item.image_path && (
                   
                    [item.image_path].flat().map((img, idx) => (
@@ -78,11 +78,11 @@ const Gallery = () => {
                         key={idx}
                         src={img}
                         alt={`Photo ${idx}`}
-                        className="flex w-8 h-8 rounded mr-1"
+                        className="flex w-5 h-5 rounded mr-1"
                       />
                     ))
                   )}
-                  </div> */}
+                  </div>
                 </td>
                 <td className="p-2 space-x-2">
                   <Link

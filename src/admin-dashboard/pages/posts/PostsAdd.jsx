@@ -34,27 +34,27 @@ const PostsAdd = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // ✅ Fetch categories
+  //  Fetch categories
   useEffect(() => {
     API.get("/categoriesmenu")
       .then(res => setCategories(res.data))
       .catch(err => console.log(err));
   }, []);
 
-  // ✅ Fetch subcategories
+  //  Fetch subcategories
   useEffect(() => {
     API.get("/subcategories")
       .then(res => setSubCategories(res.data.data))
       .catch(err => console.log(err));
   }, []);
 
-  // ✅ Slug generator
+  //  Slug generator
   const generateSlug = (text) =>
     text.toLowerCase().trim()
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-");
 
-  // ✅ Handle Change
+  //  Handle Change
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
 
@@ -88,7 +88,7 @@ const PostsAdd = () => {
     }
   };
 
-  // ✅ Submit
+  //  Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -112,7 +112,7 @@ const PostsAdd = () => {
       const res = await API.post("/posts", formData);
 
       if (res.data.success) {
-        setSuccess("✅ Post created successfully!");
+        setSuccess(" Post created successfully!");
         setTimeout(() => navigate("/admin/posts"), 1500);
       } else {
         setError("Failed");

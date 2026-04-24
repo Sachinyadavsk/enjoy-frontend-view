@@ -20,18 +20,26 @@ const SubCategory = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const fetchSubcategories = async () => {
-      try {
-        const res = await API.get("/subcategories");
-        console.log("Fetched subcategories:", res.data);
-        setSubCategories(res.data.data);
-      } catch (err) {
-        console.error("Error fetching subcategories:", err);
-      }
-    };
 
-    fetchSubcategories();
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1
+  });
+
+  const fetchSubCategories = async (page = 1) => {
+    try {
+      const res = await API.get(`/subcategories?page=${page}&limit=10`);
+
+      setSubCategories(res.data.data);
+      setPagination(res.data.pagination);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubCategories(1);
   }, []);
 
   const handleDeleteSubCate = async (id) => {
@@ -76,12 +84,12 @@ const SubCategory = () => {
                 </td>
                 <td className="p-2">
                   {item.photo && (
-                    <img src={item.photo} alt="Photo" className="w-10 h-10 rounded" />
+                    <img src={item.photo} alt="Photo" className="w-5 h-5 rounded" />
                   )}
                 </td>
                 <td className="p-2">
                   {item.banner && (
-                    <img src={item.banner} alt="Banner" className="w-10 h-10 rounded" />
+                    <img src={item.banner} alt="Banner" className="w-5 h-6 rounded" />
                   )}
                 </td>
                 <td className="p-2">
@@ -105,6 +113,49 @@ const SubCategory = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <p className="mt-2 text-sm text-gray-600">
+        Showing page <strong>{pagination.page}</strong> of{" "}
+        <strong>{pagination.totalPages}</strong> | Total records:{" "}
+        <strong>{pagination.total}</strong>
+      </p>
+      <div className="flex flex-wrap justify-center mt-4 gap-2">
+
+        {/* Prev */}
+        <button
+          onClick={() => fetchSubCategories(pagination.page - 1)}
+          disabled={pagination.page === 1}
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Prev
+        </button>
+
+        {/* Page Numbers */}
+        {[...Array(pagination.totalPages)].map((_, i) => {
+          const pageNum = i + 1;
+          return (
+            <button
+              key={pageNum}
+              onClick={() => fetchSubCategories(pageNum)}
+              className={`px-3 py-1 rounded ${pagination.page === pageNum
+                ? "bg-black text-white"
+                : "bg-gray-200"
+                }`}
+            >
+              {pageNum}
+            </button>
+          );
+        })}
+
+        {/* Next */}
+        <button
+          onClick={() => fetchSubCategories(pagination.page + 1)}
+          disabled={pagination.page === pagination.totalPages}
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+
       </div>
     </div>
   );

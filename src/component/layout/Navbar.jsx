@@ -47,7 +47,7 @@ const Navbar = () => {
                         {menuItems.slice(0, 4).map((item, index) => (
                             <Link
                                 key={index}
-                                to={`/category/${item.slug}`}   // ✅ FIXED
+                                to={`/category/${item.slug}`}   //  FIXED
                                 className="hover:text-blue-600"
                             >
                                 {item.name}
