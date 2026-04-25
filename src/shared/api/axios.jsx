@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "https://enjoy-backend-api.onrender.com/api", // change if needed
-    //  baseURL: "http://localhost:5000/api", // change if needed
+    // baseURL: "https://enjoy-backend-api.onrender.com/api", // change if needed
+    baseURL: "http://localhost:5000/api", // change if needed
 });
 
 // Attach token automatically
